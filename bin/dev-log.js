@@ -1,12 +1,8 @@
 var gutil = require('gulp-util');
-var logger = require('electron-log');
 
 var dev = (function() {
   let isDebugMode = false;
   let isVerboseMode = false;
-  let logToFile = false;
-
-  logger.transports.console = false;
 
   const API = {
     init        : (isDebug, isVerbose)   => { return initModule(isDebug, isVerbose); },
@@ -21,7 +17,6 @@ var dev = (function() {
   function initModule(d, v) {
     isDebugMode = d;
     isVerboseMode = v;
-    logToFile = global.nodeStorage.getItem('logToFile');
 
     if(isDebugMode) {
       console.log('Debug mode is Enabled');
@@ -32,11 +27,6 @@ var dev = (function() {
       if(isVerboseMode) {
         dev.logverbose('(dev and verbose) gray for regular parsing data');
       }
-    }
-    if(logToFile) {
-      console.log('Logging to file');
-    } else {
-      console.log('Not logging to a file');
     }
     return;
   }
@@ -51,21 +41,18 @@ var dev = (function() {
     var args = Array.prototype.slice.call(arguments);
     var logArgs = '- '.concat(args);
 
-    if(logToFile) { _sendToLogFile(logArgs); }
     if(isDebugMode && isVerboseMode) { _sendToConsole(logArgs, gutil.colors.gray); }
   }
   function logpackets() { // green
     var args = Array.prototype.slice.call(arguments);
     var logArgs = '* '.concat(args);
 
-    if(logToFile) { _sendToLogFile(logArgs); }
     if(isDebugMode) { _sendToConsole(logArgs, gutil.colors.green); }
   }
   function logfunction() { // magenta
     var args = Array.prototype.slice.call(arguments);
     var logArgs = '~ '.concat(args);
 
-    if(logToFile) { _sendToLogFile(logArgs); }
     if(isDebugMode) { _sendToConsole(logArgs, gutil.colors.magenta); }
   }
   function error() { // red
@@ -77,7 +64,7 @@ var dev = (function() {
   }
 
   function _sendToLogFile(logArgs) {
-    logger.info(logArgs.toString());
+//     logger.info(logArgs.toString());
   }
   function _sendToConsole(logArgs, color = gutil.colors.white) {
     gutil.log(color(logArgs));

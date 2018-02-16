@@ -39,7 +39,6 @@ module.exports = function(app,io,m){
       pageDataJSON.url = req.path;
       pageDataJSON.protocol = req.protocol;
       pageDataJSON.structure = local.settings().structure;
-      pageDataJSON.logToFile = global.nodeStorage.getItem('logToFile');
       pageDataJSON.isDebug = dev.isDebug();
 
       let tasks = [];

@@ -8,23 +8,20 @@ const file = require('./bin/file');
 
 module.exports = (function() {
 
-  dev.log(`Main module initialized at ${api.getCurrentDate()}`);
   let app;
   let io;
-  let electronApp;
 
   const API = {
-    init            : (app, io, electronApp)   => init(app, io, electronApp),
+    init            : (app, io)   => init(app, io),
     createMediaMeta : (slugFolderName, slugMediaName, additionalMeta) => createMediaMeta(slugFolderName, slugMediaName, additionalMeta),
     pushMessage     : (msg)    => pushMessage(msg)
   };
 
-  function init(thisApp, thisIO, thisElectronApp) {
+  function init(thisApp, thisIO) {
     dev.log(`Initializing socket module`);
 
     app = thisApp;
     io = thisIO;
-    electronApp = thisElectronApp;
 
     io.on('connection', function (socket){
       var onevent = socket.onevent;
