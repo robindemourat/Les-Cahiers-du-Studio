@@ -19,14 +19,14 @@
 <!-- Start date -->
       <div class="margin-bottom-small">
         <label>{{ $t('capture_start') }}</label>
-        <DateTime v-model="folderdata.start">
+        <DateTime v-model="folderdata.start" :read_only="read_only">
         </DateTime>
       </div>
 
 <!-- End date -->
       <div class="margin-bottom-small">
         <label>{{ $t('capture_end') }}</label>
-        <DateTime v-model="folderdata.end">
+        <DateTime v-model="folderdata.end" :read_only="read_only">
         </DateTime>
       </div>
 
@@ -98,7 +98,7 @@ export default {
         alertify
           .closeLogOnClick(true)
           .delay(4000)
-          .error('Folder name already exists. Please use another.')
+          .error(this.$t('notifications.folder_name_exists'))
           ;
 
         return false;
@@ -108,7 +108,6 @@ export default {
       let values = this.folderdata;
       values.slugFolderName = this.slugFolderName;
 
-      // if it's all good, collect everything and send over socketio
       this.$root.createFolder(values);
 
       // then close that popover

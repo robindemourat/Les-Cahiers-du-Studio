@@ -37,7 +37,7 @@
           </span>
         </button>
 
-        <button v-if="!folder.authorized" type="button" class="button-round margin-verysmall padding-verysmall" @click="showInputPasswordField = !showInputPasswordField">
+        <button v-if="!folder.authorized" type="button" class="button-round margin-verysmall padding-verysmall" :readonly="read_only" @click="showInputPasswordField = !showInputPasswordField">
           <span class="text-cap font-verysmall">
             {{ $t('password') }}
           </span>
@@ -139,7 +139,7 @@ export default {
     submitPassword() {
       console.log('METHODS • Folder: submitPassword');
       auth.updateAdminAccess({ [this.slugFolderName]: this.$refs.passwordField.value });
-      window.socketio.sendAuth();
+      this.$socketio.sendAuth();
       this.showInputPasswordField = false;
     }
   },
