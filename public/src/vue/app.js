@@ -475,6 +475,14 @@ let vm = new Vue({
         'timeline.listMediasForFolder',
         this.listMediasForFolder
       );
+      // case of reconnection after dropped connection
+      window.addEventListener(
+        'socketio.connected_and_authentified',
+        this.updateFolderMedias(slugFolderName)
+      );
+    },
+    updateFolderMedias: function(slugFolderName) {
+      this.$socketio.listMedias(slugFolderName);
     },
     closeFolder: function() {
       if (window.state.dev_mode === 'debug') {
@@ -482,6 +490,10 @@ let vm = new Vue({
       }
       this.settings.current_slugFolderName = '';
       history.pushState({ slugFolderName: '' }, '', '/');
+      window.removeEventListener(
+        'socketio.connected_and_authentified',
+        this.updateFolderMedias(slugFolderName)
+      );
     },
 
     listMediasForFolder: function(e) {
